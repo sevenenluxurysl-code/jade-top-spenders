@@ -1,0 +1,2005 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>Jade's Top Spenders</title>
+
+
+<style>
+
+/* ====================================================
+RESET
+==================================================== */
+
+*
+{
+box-sizing: border-box;
+}
+
+html,
+body
+{
+margin: 0;
+padding: 0;
+
+width: 100%;
+height: 100%;
+
+overflow: hidden;
+}
+
+body
+{
+font-family:
+Georgia,
+"Times New Roman",
+serif;
+
+background:
+#010402;
+
+color:
+#f7e8be;
+}
+
+
+/* ====================================================
+PAGE BACKGROUND
+==================================================== */
+
+.page
+{
+position: relative;
+
+width: 100vw;
+height: 100vh;
+
+display: flex;
+
+align-items: center;
+justify-content: center;
+
+padding: 2.5vh 3vw;
+
+background:
+
+radial-gradient(
+circle at 50% 10%,
+rgba(0, 145, 80, .22),
+transparent 30%
+),
+
+radial-gradient(
+circle at 10% 75%,
+rgba(0, 105, 58, .18),
+transparent 27%
+),
+
+radial-gradient(
+circle at 90% 78%,
+rgba(0, 105, 58, .18),
+transparent 27%
+),
+
+linear-gradient(
+135deg,
+#000000 0%,
+#04120d 40%,
+#020705 70%,
+#000000 100%
+);
+}
+
+
+/* marble effect */
+
+.page::before
+{
+content: "";
+
+position: absolute;
+
+inset: 0;
+
+opacity: .28;
+
+pointer-events: none;
+
+background:
+
+repeating-linear-gradient(
+118deg,
+transparent 0px,
+transparent 48px,
+rgba(22, 133, 78, .10) 49px,
+transparent 53px,
+transparent 110px
+),
+
+repeating-linear-gradient(
+64deg,
+transparent 0px,
+transparent 90px,
+rgba(198, 154, 62, .035) 92px,
+transparent 97px
+);
+}
+
+
+/* ====================================================
+SIDE LUXURY DECOR
+==================================================== */
+
+.side-left,
+.side-right
+{
+position: absolute;
+
+top: 5vh;
+
+z-index: 3;
+
+width: 10vw;
+
+color:
+#d8ac58;
+
+text-align: center;
+
+font-size:
+clamp(
+11px,
+1.5vw,
+19px
+);
+
+line-height: 1.55;
+
+letter-spacing: .08em;
+
+text-shadow:
+0 0 10px
+rgba(216, 172, 88, .20);
+}
+
+.side-left
+{
+left: 1vw;
+}
+
+.side-right
+{
+right: 1vw;
+}
+
+
+.side-card
+{
+padding:
+2vh 1vw;
+
+border:
+1px solid
+rgba(215, 171, 83, .30);
+
+background:
+linear-gradient(
+180deg,
+rgba(3, 14, 9, .85),
+rgba(0, 0, 0, .82)
+);
+
+box-shadow:
+inset 0 0 25px
+rgba(0, 130, 70, .10);
+}
+
+
+/* ====================================================
+DECORATIVE BOTTOM PIECES
+==================================================== */
+
+.decor-left,
+.decor-right
+{
+position: absolute;
+
+bottom: 3vh;
+
+z-index: 2;
+
+font-size:
+clamp(
+40px,
+6vw,
+85px
+);
+
+color:
+rgba(18, 174, 101, .45);
+
+filter:
+drop-shadow(
+0 0 12px
+rgba(16, 200, 115, .20)
+);
+}
+
+.decor-left
+{
+left: 3vw;
+}
+
+.decor-right
+{
+right: 3vw;
+}
+
+
+.money
+{
+position: absolute;
+
+left: 3vw;
+bottom: 14vh;
+
+color:
+rgba(215, 178, 88, .75);
+
+font-size:
+clamp(
+20px,
+3vw,
+45px
+);
+
+transform:
+rotate(-7deg);
+}
+
+
+.champagne
+{
+position: absolute;
+
+right: 4vw;
+bottom: 15vh;
+
+color:
+rgba(240, 206, 119, .80);
+
+font-size:
+clamp(
+24px,
+3vw,
+48px
+);
+}
+
+
+/* ====================================================
+MAIN BOARD
+==================================================== */
+
+.board
+{
+position: relative;
+
+z-index: 5;
+
+width:
+min(
+82vw,
+1180px
+);
+
+height:
+min(
+93vh,
+860px
+);
+
+padding:
+2.3vh
+2.7vw
+3vh;
+
+border:
+2px solid
+#d1a347;
+
+border-radius:
+24px;
+
+background:
+
+radial-gradient(
+circle at 50% 0%,
+rgba(0, 110, 62, .20),
+transparent 36%
+),
+
+linear-gradient(
+180deg,
+rgba(3, 17, 11, .98),
+rgba(0, 5, 3, .985)
+);
+
+box-shadow:
+
+0 0 0 2px
+rgba(255, 213, 120, .10),
+
+0 0 30px
+rgba(210, 164, 74, .18),
+
+0 0 60px
+rgba(0, 100, 55, .18),
+
+inset 0 0 70px
+rgba(0, 85, 45, .14);
+}
+
+
+.board::before
+{
+content: "";
+
+position: absolute;
+
+inset: 10px;
+
+pointer-events: none;
+
+border:
+1px solid
+rgba(239, 201, 111, .32);
+
+border-radius:
+16px;
+}
+
+
+/* ====================================================
+CROWN
+==================================================== */
+
+.crown
+{
+text-align: center;
+
+color:
+#e5b953;
+
+font-size:
+clamp(
+21px,
+3.2vh,
+38px
+);
+
+line-height: 1;
+
+text-shadow:
+0 0 14px
+rgba(255, 207, 93, .45);
+}
+
+
+/* ====================================================
+TITLE
+==================================================== */
+
+.title-area
+{
+display: flex;
+
+align-items: center;
+justify-content: center;
+
+gap: 2vw;
+}
+
+
+.title-diamond
+{
+color:
+#26d183;
+
+font-size:
+clamp(
+28px,
+4vh,
+50px
+);
+
+text-shadow:
+
+0 0 3px
+#dfad4d,
+
+0 0 16px
+rgba(22, 221, 128, .40);
+}
+
+
+.title
+{
+text-align: center;
+
+font-size:
+clamp(
+44px,
+7.2vh,
+89px
+);
+
+line-height: .92;
+
+letter-spacing: .035em;
+
+font-weight: 600;
+
+background:
+linear-gradient(
+180deg,
+#5ff2aa,
+#078149 40%,
+#025330 70%,
+#38c987
+);
+
+-webkit-background-clip:
+text;
+
+color: transparent;
+
+filter:
+
+drop-shadow(
+0 0 1px
+#e9c268
+)
+
+drop-shadow(
+0 0 10px
+rgba(15, 191, 108, .27)
+);
+}
+
+
+.title-secondary
+{
+display: block;
+
+margin-top: 1vh;
+
+color:
+#efcd83;
+
+font-size:
+clamp(
+27px,
+4.3vh,
+55px
+);
+
+letter-spacing: .035em;
+
+-webkit-text-fill-color:
+#efcd83;
+
+text-shadow:
+0 0 9px
+rgba(240, 190, 90, .16);
+}
+
+
+/* ====================================================
+SUBTITLE
+==================================================== */
+
+.subtitle-wrap
+{
+display: flex;
+
+align-items: center;
+justify-content: center;
+
+gap: 1.3vw;
+
+margin:
+1.7vh 0
+1.7vh;
+}
+
+
+.subtitle-line
+{
+width: 11vw;
+height: 1px;
+
+background:
+linear-gradient(
+90deg,
+transparent,
+#b98734
+);
+}
+
+
+.subtitle-line.right
+{
+transform: rotate(180deg);
+}
+
+
+.subtitle
+{
+color:
+#eac983;
+
+font-size:
+clamp(
+11px,
+1.8vh,
+21px
+);
+
+letter-spacing:
+.32em;
+
+white-space: nowrap;
+}
+
+
+/* ====================================================
+MODE SWITCH
+==================================================== */
+
+.tabs
+{
+display: flex;
+
+justify-content: center;
+
+margin-bottom:
+1.8vh;
+}
+
+
+.tab-shell
+{
+display: inline-flex;
+
+padding: 3px;
+
+border:
+1px solid
+#b48431;
+
+border-radius:
+999px;
+
+background:
+rgba(0, 0, 0, .70);
+}
+
+
+.tab
+{
+min-width:
+165px;
+
+border: 0;
+
+border-radius:
+999px;
+
+padding:
+.9vh 2vw;
+
+cursor: pointer;
+
+font-family:
+Georgia,
+"Times New Roman",
+serif;
+
+color:
+#e6c57a;
+
+font-size:
+clamp(
+12px,
+1.8vh,
+20px
+);
+
+letter-spacing:
+.08em;
+
+background:
+transparent;
+}
+
+
+.tab.active
+{
+color:
+#fff4da;
+
+background:
+
+radial-gradient(
+circle,
+rgba(25, 194, 113, .55),
+rgba(0, 71, 39, .95)
+);
+
+box-shadow:
+
+inset 0 0 15px
+rgba(27, 255, 150, .20),
+
+0 0 18px
+rgba(24, 210, 124, .22);
+}
+
+
+/* ====================================================
+TABLE
+==================================================== */
+
+.table-header,
+.row
+{
+display: grid;
+
+grid-template-columns:
+.9fr
+1.8fr
+1.9fr
+1.3fr;
+
+align-items: center;
+}
+
+
+.table-header
+{
+padding:
+1vh
+1.4vw;
+
+border-top:
+1px solid
+rgba(211, 166, 72, .48);
+
+border-bottom:
+1px solid
+rgba(211, 166, 72, .48);
+
+color:
+#f0d497;
+
+font-size:
+clamp(
+11px,
+1.55vh,
+18px
+);
+
+letter-spacing:
+.12em;
+}
+
+
+.rows
+{
+margin-top:
+1.1vh;
+}
+
+
+.row
+{
+min-height:
+8.1vh;
+
+margin-bottom:
+1vh;
+
+padding:
+.4vh
+1.4vw;
+
+border:
+1px solid
+rgba(210, 165, 70, .52);
+
+border-radius:
+13px;
+
+background:
+
+linear-gradient(
+90deg,
+rgba(5, 18, 11, .98),
+rgba(0, 0, 0, .98)
+);
+
+box-shadow:
+inset 0 0 14px
+rgba(0, 115, 63, .05);
+
+transition:
+.25s ease;
+}
+
+
+.row.top
+{
+border:
+2px solid
+#e0b252;
+
+background:
+
+radial-gradient(
+circle at 50% 50%,
+rgba(0, 125, 69, .45),
+transparent 65%
+),
+
+linear-gradient(
+90deg,
+#063a22,
+#052a19,
+#012315
+);
+
+box-shadow:
+
+0 0 17px
+rgba(42, 225, 134, .27),
+
+inset 0 0 20px
+rgba(39, 211, 127, .08);
+}
+
+
+/* ====================================================
+CELLS
+==================================================== */
+
+.rank-cell
+{
+display: flex;
+
+align-items: center;
+
+gap: .6vw;
+}
+
+
+.rank-crown
+{
+min-width: 22px;
+
+color:
+#f0bd51;
+
+font-size:
+clamp(
+17px,
+2.5vh,
+29px
+);
+}
+
+
+.rank
+{
+color:
+#e9c778;
+
+font-size:
+clamp(
+21px,
+3vh,
+35px
+);
+}
+
+
+.client
+{
+color:
+#f5e6c9;
+
+font-size:
+clamp(
+16px,
+2.4vh,
+29px
+);
+
+white-space: nowrap;
+
+overflow: hidden;
+
+text-overflow: ellipsis;
+}
+
+
+.status
+{
+display: flex;
+
+align-items: center;
+
+gap: .6vw;
+
+color:
+#e4c372;
+
+font-style: italic;
+
+font-size:
+clamp(
+14px,
+2.1vh,
+25px
+);
+}
+
+
+.status-icon
+{
+color:
+#e6c36b;
+
+font-style: normal;
+
+font-size:
+1.1em;
+}
+
+
+.spend
+{
+text-align: right;
+
+color:
+#f2d291;
+
+font-size:
+clamp(
+17px,
+2.65vh,
+31px
+);
+
+white-space: nowrap;
+}
+
+
+.empty
+{
+opacity: .35;
+}
+
+
+/* ====================================================
+LOADING / MESSAGE
+==================================================== */
+
+.message
+{
+display: none;
+
+margin:
+5vh auto;
+
+text-align: center;
+
+color:
+#dfbd70;
+
+font-size:
+clamp(
+16px,
+2.2vh,
+26px
+);
+
+line-height: 1.6;
+}
+
+
+/* ====================================================
+FOOTER
+==================================================== */
+
+.footer
+{
+position: absolute;
+
+left: 0;
+right: 0;
+
+bottom:
+2.2vh;
+
+display: flex;
+
+align-items: center;
+justify-content: center;
+
+gap:
+1.1vw;
+
+color:
+#d2aa59;
+
+font-size:
+clamp(
+10px,
+1.45vh,
+17px
+);
+
+letter-spacing:
+.27em;
+}
+
+
+.footer-line
+{
+width:
+9vw;
+
+height:
+1px;
+
+background:
+#aa7c2d;
+}
+
+
+.footer-diamond
+{
+color:
+#23c97a;
+
+font-size:
+1.6em;
+
+text-shadow:
+0 0 10px
+rgba(17, 220, 124, .35);
+}
+
+
+/* ====================================================
+J MONOGRAM
+==================================================== */
+
+.monogram
+{
+position: absolute;
+
+right:
+1.6vw;
+
+bottom:
+2.6vh;
+
+color:
+rgba(221, 177, 78, .27);
+
+font-size:
+clamp(
+38px,
+6vh,
+70px
+);
+
+font-style: italic;
+
+pointer-events: none;
+}
+
+
+/* ====================================================
+MOBILE / FUTURE HUD COMPACT MODE
+==================================================== */
+
+body.compact .side-left,
+body.compact .side-right,
+body.compact .decor-left,
+body.compact .decor-right,
+body.compact .money,
+body.compact .champagne,
+body.compact .monogram
+{
+display: none;
+}
+
+
+body.compact .board
+{
+width:
+97vw;
+
+height:
+97vh;
+}
+
+
+body.compact .page
+{
+padding:
+1vh 1vw;
+}
+
+
+body.compact .title
+{
+font-size:
+clamp(
+31px,
+5vh,
+55px
+);
+}
+
+
+@media
+(
+max-width: 750px
+)
+{
+.side-left,
+.side-right,
+.decor-left,
+.decor-right,
+.money,
+.champagne
+{
+display: none;
+}
+
+
+.board
+{
+width:
+96vw;
+}
+
+
+.tab
+{
+min-width:
+120px;
+}
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="page">
+
+
+<!-- ==============================================
+SIDE BRANDING
+=============================================== -->
+
+<div class="side-left">
+
+<div class="side-card">
+
+GOOD<br>
+GIRLS<br>
+PREFER<br>
+JADE<br>
+♡
+
+</div>
+
+</div>
+
+
+<div class="side-right">
+
+<div class="side-card">
+
+MORE<br>
+THAN<br>
+A SCENE<br>
+A FEELING<br>
+♡
+
+</div>
+
+</div>
+
+
+<!-- ==============================================
+DECOR
+=============================================== -->
+
+<div class="money">
+L$ ✦
+</div>
+
+
+<div class="champagne">
+♢ ✦
+</div>
+
+
+<div class="decor-left">
+◆
+</div>
+
+
+<div class="decor-right">
+◆
+</div>
+
+
+<!-- ==============================================
+MAIN BOARD
+=============================================== -->
+
+<main class="board">
+
+
+<div class="crown">
+♛
+</div>
+
+
+<div class="title-area">
+
+<div class="title-diamond">
+◇
+</div>
+
+
+<div class="title">
+
+JADE'S
+
+<span class="title-secondary">
+TOP SPENDERS
+</span>
+
+</div>
+
+
+<div class="title-diamond">
+◇
+</div>
+
+</div>
+
+
+<div class="subtitle-wrap">
+
+<div class="subtitle-line">
+</div>
+
+
+<div
+class="subtitle"
+id="subtitle"
+>
+ALL-TIME ELITE LIST
+</div>
+
+
+<div class="subtitle-line right">
+</div>
+
+</div>
+
+
+<!-- ==========================================
+ALL-TIME / MONTHLY
+=========================================== -->
+
+<div class="tabs">
+
+<div class="tab-shell">
+
+<button
+class="tab active"
+id="allTimeButton"
+onclick="setScope('ALL_TIME')"
+>
+ALL-TIME
+</button>
+
+
+<button
+class="tab"
+id="monthlyButton"
+onclick="setScope('MONTHLY')"
+>
+MONTHLY
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ==========================================
+COLUMN TITLES
+=========================================== -->
+
+<div class="table-header">
+
+<div>
+RANK
+</div>
+
+<div>
+CLIENT
+</div>
+
+<div>
+STATUS
+</div>
+
+<div
+style="
+text-align:right;
+"
+>
+SPEND
+</div>
+
+</div>
+
+
+<!-- ==========================================
+LIVE ROWS
+=========================================== -->
+
+<div
+class="rows"
+id="rows"
+>
+</div>
+
+
+<div
+class="message"
+id="message"
+>
+</div>
+
+
+<!-- ==========================================
+FOOTER
+=========================================== -->
+
+<div class="footer">
+
+<div class="footer-line">
+</div>
+
+
+<div class="footer-diamond">
+◇
+</div>
+
+
+<div>
+LIVE FROM JADE CENTRAL
+</div>
+
+
+<div class="footer-line">
+</div>
+
+</div>
+
+
+<div class="monogram">
+♛ J
+</div>
+
+
+</main>
+
+</div>
+
+
+<script>
+
+// =====================================================
+// PUT YOUR WORKING JADE API URL HERE
+//
+// IMPORTANT:
+// This is your jade-api URL.
+// NOT the jade-leaderboard URL.
+// =====================================================
+
+const JADE_API =
+"https://toalyianadfotcvmwcmx.supabase.co/functions/v1/jade-leaderboard";
+
+
+// =====================================================
+// SETTINGS
+// =====================================================
+
+let currentScope =
+"ALL_TIME";
+
+
+// Refresh the current leaderboard every 60 seconds.
+const REFRESH_MS =
+60000;
+
+
+// Automatically rotate All-Time / Monthly every 45 sec.
+const ROTATE_MS =
+45000;
+
+
+// =====================================================
+// URL SETTINGS
+//
+// Later:
+// ?compact=1
+//
+// gives us the future HUD version.
+// =====================================================
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+
+if (
+params.get(
+"compact"
+) ===
+"1"
+)
+{
+document.body.classList.add(
+"compact"
+);
+}
+
+
+// =====================================================
+// HTML SAFETY
+// =====================================================
+
+function escapeHTML(
+value
+)
+{
+return String(
+value ?? ""
+)
+.replace(
+/&/g,
+"&amp;"
+)
+.replace(
+/</g,
+"&lt;"
+)
+.replace(
+/>/g,
+"&gt;"
+)
+.replace(
+/"/g,
+"&quot;"
+)
+.replace(
+/'/g,
+"&#039;"
+);
+}
+
+
+// =====================================================
+// FORMAT LINDENS
+// =====================================================
+
+function formatLindens(
+amount
+)
+{
+let number =
+Number(
+amount ?? 0
+);
+
+
+if (
+!Number.isFinite(
+number
+)
+)
+{
+number = 0;
+}
+
+
+return (
+"L$"
++
+number.toLocaleString(
+"en-US"
+)
+);
+}
+
+
+// =====================================================
+// STATUS ICON
+// =====================================================
+
+function getStatusIcon(
+status
+)
+{
+switch (
+status
+)
+{
+case "Crown Jewel":
+return "♛";
+
+case "High Society":
+return "◇";
+
+case "Rare Gem":
+return "◆";
+
+case "Polished":
+return "✦";
+
+default:
+return "♡";
+}
+}
+
+
+// =====================================================
+// SHOW MESSAGE
+// =====================================================
+
+function showMessage(
+text
+)
+{
+document.getElementById(
+"rows"
+).style.display =
+"none";
+
+
+const message =
+document.getElementById(
+"message"
+);
+
+
+message.style.display =
+"block";
+
+
+message.innerHTML =
+escapeHTML(
+text
+);
+}
+
+
+// =====================================================
+// SHOW ROW AREA
+// =====================================================
+
+function showRows()
+{
+document.getElementById(
+"message"
+).style.display =
+"none";
+
+
+document.getElementById(
+"rows"
+).style.display =
+"block";
+}
+
+
+// =====================================================
+// BUILD ONE ROW
+// =====================================================
+
+function buildRow(
+entry,
+index
+)
+{
+const rank =
+escapeHTML(
+entry.rank ??
+index + 1
+);
+
+
+const name =
+escapeHTML(
+entry.display_name ??
+"Anonymous"
+);
+
+
+const status =
+escapeHTML(
+entry.status_title ??
+"Jade Guest"
+);
+
+
+const rawSpend =
+currentScope ===
+"MONTHLY"
+
+? entry.monthly_spend
+
+: entry.total_spend;
+
+
+const spend =
+escapeHTML(
+formatLindens(
+rawSpend
+)
+);
+
+
+const statusIcon =
+getStatusIcon(
+String(
+entry.status_title ??
+""
+)
+);
+
+
+const crown =
+index === 0
+? "♛"
+: "";
+
+
+const topClass =
+index === 0
+? " top"
+: "";
+
+
+return `
+<div class="row${topClass}">
+
+<div class="rank-cell">
+
+<span class="rank-crown">
+${crown}
+</span>
+
+<span class="rank">
+#${rank}
+</span>
+
+</div>
+
+
+<div class="client">
+${name}
+</div>
+
+
+<div class="status">
+
+<span class="status-icon">
+${statusIcon}
+</span>
+
+<span>
+${status}
+</span>
+
+</div>
+
+
+<div class="spend">
+${spend}
+</div>
+
+</div>
+`;
+}
+
+
+// =====================================================
+// BUILD EMPTY ROW
+// =====================================================
+
+function buildEmptyRow(
+position
+)
+{
+return `
+<div class="row empty">
+
+<div class="rank-cell">
+
+<span class="rank-crown">
+</span>
+
+<span class="rank">
+#${position}
+</span>
+
+</div>
+
+
+<div class="client">
+—
+</div>
+
+
+<div class="status">
+—
+</div>
+
+
+<div class="spend">
+—
+</div>
+
+</div>
+`;
+}
+
+
+// =====================================================
+// DRAW LEADERBOARD
+// =====================================================
+
+function drawLeaderboard(
+entries
+)
+{
+showRows();
+
+
+let html =
+"";
+
+
+const limit =
+5;
+
+
+for (
+let i = 0;
+i < limit;
+i++
+)
+{
+if (
+entries[i]
+)
+{
+html +=
+buildRow(
+entries[i],
+i
+);
+}
+
+else
+{
+html +=
+buildEmptyRow(
+i + 1
+);
+}
+}
+
+
+document.getElementById(
+"rows"
+).innerHTML =
+html;
+}
+
+
+// =====================================================
+// UPDATE VISUAL MODE
+// =====================================================
+
+function updateModeUI()
+{
+const allTimeButton =
+document.getElementById(
+"allTimeButton"
+);
+
+
+const monthlyButton =
+document.getElementById(
+"monthlyButton"
+);
+
+
+const subtitle =
+document.getElementById(
+"subtitle"
+);
+
+
+if (
+currentScope ===
+"MONTHLY"
+)
+{
+monthlyButton
+.classList
+.add(
+"active"
+);
+
+
+allTimeButton
+.classList
+.remove(
+"active"
+);
+
+
+subtitle.textContent =
+"MONTHLY ELITE LIST";
+}
+
+else
+{
+allTimeButton
+.classList
+.add(
+"active"
+);
+
+
+monthlyButton
+.classList
+.remove(
+"active"
+);
+
+
+subtitle.textContent =
+"ALL-TIME ELITE LIST";
+}
+}
+
+
+// =====================================================
+// FETCH JADE CENTRAL
+// =====================================================
+
+async function loadLeaderboard()
+{
+if (
+JADE_API.includes(
+"PASTE_YOUR"
+)
+)
+{
+showMessage(
+"Jade API URL has not been added yet."
+);
+
+return;
+}
+
+
+try
+{
+const response =
+await fetch(
+JADE_API,
+{
+method:
+"POST",
+
+headers:
+{
+"Content-Type":
+"application/json"
+},
+
+body:
+JSON.stringify(
+{
+action:
+"get_leaderboard",
+
+scope:
+currentScope
+}
+)
+}
+);
+
+
+if (
+!response.ok
+)
+{
+throw new Error(
+"Jade Central returned HTTP "
++
+response.status
+);
+}
+
+
+const data =
+await response.json();
+
+
+if (
+data.success !==
+true
+)
+{
+throw new Error(
+data.error ??
+"Leaderboard request failed."
+);
+}
+
+
+const leaderboard =
+Array.isArray(
+data.leaderboard
+)
+
+? data.leaderboard
+
+: [];
+
+
+drawLeaderboard(
+leaderboard
+);
+}
+
+
+catch (
+error
+)
+{
+console.error(
+error
+);
+
+
+showMessage(
+"Jade Central is refreshing the leaderboard."
+);
+}
+}
+
+
+// =====================================================
+// CHANGE SCOPE
+// =====================================================
+
+function setScope(
+scope
+)
+{
+currentScope =
+scope ===
+"MONTHLY"
+
+? "MONTHLY"
+
+: "ALL_TIME";
+
+
+updateModeUI();
+
+
+loadLeaderboard();
+}
+
+
+// =====================================================
+// AUTOMATIC ROTATION
+// =====================================================
+
+setInterval(
+() =>
+{
+if (
+currentScope ===
+"ALL_TIME"
+)
+{
+setScope(
+"MONTHLY"
+);
+}
+
+else
+{
+setScope(
+"ALL_TIME"
+);
+}
+},
+
+ROTATE_MS
+);
+
+
+// =====================================================
+// LIVE REFRESH
+// =====================================================
+
+setInterval(
+() =>
+{
+loadLeaderboard();
+},
+
+REFRESH_MS
+);
+
+
+// =====================================================
+// START
+// =====================================================
+
+updateModeUI();
+
+loadLeaderboard();
+
+</script>
+
+</body>
+
+</html>
