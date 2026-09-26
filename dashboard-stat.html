@@ -1,1 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>Jade Dashboard Stat</title>
+
+
+<style>
+
+*
+{
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+
+html,
+body
+{
+width: 100%;
+height: 100%;
+
+overflow: hidden;
+
+background: transparent;
+
+font-family:
+Arial,
+Helvetica,
+sans-serif;
+}
+
+
+body
+{
+display: flex;
+align-items: center;
+justify-content: center;
+
+padding: 4px;
+}
+
+
+.stat
+{
+width: 100%;
+height: 100%;
+
+position: relative;
+
+display: flex;
+flex-direction: column;
+
+align-items: center;
+justify-content: center;
+
+text-align: center;
+
+border:
+2px solid
+#b99643;
+
+border-radius:
+14px;
+
+
+background:
+
+radial-gradient(
+circle at 50% 0%,
+rgba(
+37,
+171,
+106,
+0.18
+),
+transparent 45%
+),
+
+linear-gradient(
+145deg,
+#06110d 0%,
+#0b2118 50%,
+#07110e 100%
+);
+
+
+box-shadow:
+
+inset
+0
+0
+25px
+rgba(
+45,
+192,
+122,
+0.08
+),
+
+0
+0
+12px
+rgba(
+209,
+175,
+73,
+0.18
+);
+}
+
+
+.stat::before
+{
+content: "";
+
+position: absolute;
+
+inset: 4px;
+
+border:
+1px solid
+rgba(
+221,
+191,
+96,
+0.22
+);
+
+border-radius:
+10px;
+
+pointer-events: none;
+}
+
+
+.label
+{
+position: relative;
+
+z-index: 2;
+
+color:
+#d9c276;
+
+font-size:
+16px;
+
+font-weight:
+700;
+
+letter-spacing:
+1.4px;
+
+text-transform:
+uppercase;
+
+margin-bottom:
+7px;
+}
+
+
+.value
+{
+position: relative;
+
+z-index: 2;
+
+color:
+#65dda1;
+
+font-size:
+35px;
+
+font-weight:
+900;
+
+line-height:
+1;
+
+text-shadow:
+0
+0
+13px
+rgba(
+65,
+220,
+151,
+0.25
+);
+}
+
+
+.diamond
+{
+color:
+#61dca0;
+
+font-size:
+12px;
+
+margin-right:
+5px;
+}
+
+
+.loading
+{
+color:
+rgba(
+225,
+208,
+151,
+0.55
+);
+
+font-size:
+17px;
+
+font-weight:
+700;
+
+letter-spacing:
+1px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div
+id="stat"
+class="stat"
+>
+</div>
+
+
+<script>
+
+// ============================================================
+// THE JADE EXPERIENCE
+// DASHBOARD STAT DISPLAY
+//
+// Reads values from either:
+//
+// ?label=TOTAL%20CLIENTS&value=25
+//
+// OR
+//
+// #label=TOTAL%20CLIENTS&value=25
+//
+// Supports live hash changes from Second Life.
+// ============================================================
+
+
+function readParameters()
+{
+const query =
+new URLSearchParams(
+window.location.search
+);
+
+
+const hash =
+new URLSearchParams(
+window.location.hash.replace(
+/^#/,
+""
+)
+);
+
+
+function get(name)
+{
+return (
+query.get(name)
+||
+hash.get(name)
+||
+""
+);
+}
+
+
+return {
+
+label:
+get(
+"label"
+),
+
+value:
+get(
+"value"
+)
+
+};
+}
+
+
+// ============================================================
+// SAFE ELEMENT CREATION
+// ============================================================
+
+function makeElement(
+className,
+text
+)
+{
+const element =
+document.createElement(
+"div"
+);
+
+
+element.className =
+className;
+
+
+element.textContent =
+text;
+
+
+return element;
+}
+
+
+// ============================================================
+// RENDER
+// ============================================================
+
+function render()
+{
+const params =
+readParameters();
+
+
+const stat =
+document.getElementById(
+"stat"
+);
+
+
+stat.innerHTML =
+"";
+
+
+if (
+!params.label
+)
+{
+const loading =
+makeElement(
+"loading",
+"JADE CENTRAL"
+);
+
+
+stat.appendChild(
+loading
+);
+
+
+return;
+}
+
+
+const label =
+makeElement(
+"label",
+params.label
+);
+
+
+const value =
+makeElement(
+"value",
+params.value || "0"
+);
+
+
+stat.appendChild(
+label
+);
+
+
+stat.appendChild(
+value
+);
+}
+
+
+// ============================================================
+// FIRST LOAD
+// ============================================================
+
+render();
+
+
+// ============================================================
+// SECOND LIFE HASH UPDATE
+// ============================================================
+
+window.addEventListener(
+"hashchange",
+render
+);
+
+
+// ============================================================
+// BROWSER CACHE RESTORE
+// ============================================================
+
+window.addEventListener(
+"pageshow",
+render
+);
+
+</script>
+
+
+</body>
+
+</html>
