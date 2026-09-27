@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>Jade Session Timer</title>
+
+
+<style>
+
+*
+{
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+
+html,
+body
+{
+width: 100%;
+height: 100%;
+
+overflow: hidden;
+
+background: transparent;
+
+font-family:
+Arial,
+Helvetica,
+sans-serif;
+}
+
+
+body
+{
+padding: 5px;
+}
+
+
+.timer
+{
+width: 100%;
+height: 100%;
+
+display: flex;
+flex-direction: column;
+
+align-items: center;
+justify-content: center;
+
+text-align: center;
+
+border:
+2px solid
+#b99643;
+
+border-radius:
+14px;
+
+
+background:
+
+radial-gradient(
+circle at 50% 0%,
+rgba(
+37,
+171,
+106,
+0.18
+),
+transparent 50%
+),
+
+linear-gradient(
+145deg,
+#05100c 0%,
+#0b2118 50%,
+#06110d 100%
+);
+
+
+box-shadow:
+inset
+0
+0
+25px
+rgba(
+45,
+192,
+122,
+0.08
+);
+}
+
+
+.label
+{
+color:
+#d9c276;
+
+font-size:
+14px;
+
+font-weight:
+900;
+
+letter-spacing:
+2px;
+
+text-transform:
+uppercase;
+
+margin-bottom:
+5px;
+}
+
+
+.time
+{
+color:
+#65dda1;
+
+font-size:
+39px;
+
+font-weight:
+900;
+
+line-height:
+1;
+
+letter-spacing:
+2px;
+
+text-shadow:
+0
+0
+12px
+rgba(
+101,
+221,
+161,
+0.25
+);
+}
+
+
+.status
+{
+color:
+#f0e3b2;
+
+font-size:
+12px;
+
+font-weight:
+700;
+
+letter-spacing:
+1px;
+
+margin-top:
+6px;
+
+text-transform:
+uppercase;
+}
+
+
+.paused
+{
+color:
+#d9c276;
+}
+
+
+.finished
+{
+color:
+#f0cf72;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div
+id="timer"
+class="timer"
+>
+</div>
+
+
+<script>
+
+// ============================================================
+// THE JADE EXPERIENCE
+// SESSION TIMER DISPLAY
+//
+// Reads:
+//
+// #seconds=3600
+// &status=ACTIVE
+//
+// Examples:
+//
+// session-timer.html#seconds=360
