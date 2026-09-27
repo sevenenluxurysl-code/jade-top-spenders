@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 
 <meta
@@ -12,195 +11,115 @@ content="width=device-width, initial-scale=1.0"
 
 <title>Jade Session Timer</title>
 
-
 <style>
 
-*
-{
+* {
 box-sizing: border-box;
 margin: 0;
 padding: 0;
 }
 
-
 html,
-body
-{
+body {
 width: 100%;
 height: 100%;
-
 overflow: hidden;
-
-background: transparent;
-
-font-family:
-Arial,
-Helvetica,
-sans-serif;
+font-family: Arial, Helvetica, sans-serif;
+background: #050d0a;
 }
 
-
-body
-{
+body {
 padding: 5px;
 }
 
-
-.timer
-{
+.timer {
 width: 100%;
 height: 100%;
 
 display: flex;
 flex-direction: column;
-
 align-items: center;
 justify-content: center;
 
 text-align: center;
 
-border:
-2px solid
-#b99643;
-
-border-radius:
-14px;
-
+border: 2px solid #b99643;
+border-radius: 14px;
 
 background:
-
 radial-gradient(
 circle at 50% 0%,
-rgba(
-37,
-171,
-106,
-0.18
-),
+rgba(37, 171, 106, 0.20),
 transparent 50%
 ),
-
 linear-gradient(
 145deg,
 #05100c 0%,
 #0b2118 50%,
 #06110d 100%
 );
-
-
-box-shadow:
-inset
-0
-0
-25px
-rgba(
-45,
-192,
-122,
-0.08
-);
 }
 
+.label {
+color: #d9c276;
 
-.label
-{
-color:
-#d9c276;
+font-size: 14px;
+font-weight: 900;
 
-font-size:
-14px;
-
-font-weight:
-900;
-
-letter-spacing:
-2px;
-
-text-transform:
-uppercase;
-
-margin-bottom:
-5px;
+letter-spacing: 2px;
+margin-bottom: 5px;
 }
 
+.time {
+color: #65dda1;
 
-.time
-{
-color:
-#65dda1;
+font-size: 40px;
+font-weight: 900;
 
-font-size:
-39px;
-
-font-weight:
-900;
-
-line-height:
-1;
-
-letter-spacing:
-2px;
+line-height: 1;
+letter-spacing: 2px;
 
 text-shadow:
-0
-0
-12px
-rgba(
-101,
-221,
-161,
-0.25
-);
+0 0 12px
+rgba(101, 221, 161, 0.30);
 }
 
+.status {
+color: #f0e3b2;
 
-.status
-{
-color:
-#f0e3b2;
+font-size: 12px;
+font-weight: 700;
 
-font-size:
-12px;
-
-font-weight:
-700;
-
-letter-spacing:
-1px;
-
-margin-top:
-6px;
-
-text-transform:
-uppercase;
-}
-
-
-.paused
-{
-color:
-#d9c276;
-}
-
-
-.finished
-{
-color:
-#f0cf72;
+letter-spacing: 1px;
+margin-top: 7px;
 }
 
 </style>
-
 </head>
 
 
 <body>
 
+<div class="timer">
+
+<div class="label">
+SESSION TIMER
+</div>
 
 <div
-id="timer"
-class="timer"
+id="time"
+class="time"
 >
+00:00
+</div>
+
+<div
+id="status"
+class="status"
+>
+READY
+</div>
+
 </div>
 
 
@@ -208,13 +127,267 @@ class="timer"
 
 // ============================================================
 // THE JADE EXPERIENCE
-// SESSION TIMER DISPLAY
+// SESSION TIMER
 //
-// Reads:
+// TEST:
+// #seconds=600&status=ACTIVE
 //
-// #seconds=3600
-// &status=ACTIVE
-//
-// Examples:
-//
-// session-timer.html#seconds=360
+// ============================================================
+
+var remainingSeconds = 0;
+var timerStatus = "READY";
+var clock = null;
+
+
+// ============================================================
+// READ URL
+// ============================================================
+
+function readSettings()
+{
+var hashText =
+window.location.hash.substring(1);
+
+var params =
+new URLSearchParams(
+hashText
+);
+
+
+var seconds =
+parseInt(
+params.get("seconds"),
+10
+);
+
+
+if (
+isNaN(seconds)
+||
+seconds < 0
+)
+{
+seconds = 0;
+}
+
+
+var status =
+params.get("status");
+
+
+if (
+!status
+)
+{
+status = "READY";
+}
+
+
+remainingSeconds =
+seconds;
+
+
+timerStatus =
+status.toUpperCase();
+
+
+startTimer();
+}
+
+
+// ============================================================
+// FORMAT CLOCK
+// ============================================================
+
+function formatTime(totalSeconds)
+{
+totalSeconds =
+Math.max(
+0,
+totalSeconds
+);
+
+
+var hours =
+Math.floor(
+totalSeconds / 3600
+);
+
+
+var minutes =
+Math.floor(
+(
+totalSeconds % 3600
+)
+/ 60
+);
+
+
+var seconds =
+totalSeconds % 60;
+
+
+var mm =
+String(minutes)
+.padStart(
+2,
+"0"
+);
+
+
+var ss =
+String(seconds)
+.padStart(
+2,
+"0"
+);
+
+
+if (
+hours > 0
+)
+{
+var hh =
+String(hours)
+.padStart(
+2,
+"0"
+);
+
+
+return (
+hh
++
+":"
++
+mm
++
+":"
++
+ss
+);
+}
+
+
+return (
+mm
++
+":"
++
+ss
+);
+}
+
+
+// ============================================================
+// DRAW
+// ============================================================
+
+function updateDisplay()
+{
+document.getElementById(
+"time"
+).textContent =
+formatTime(
+remainingSeconds
+);
+
+
+document.getElementById(
+"status"
+).textContent =
+timerStatus;
+}
+
+
+// ============================================================
+// STOP EXISTING CLOCK
+// ============================================================
+
+function stopTimer()
+{
+if (
+clock !== null
+)
+{
+clearInterval(
+clock
+);
+
+clock =
+null;
+}
+}
+
+
+// ============================================================
+// START TIMER
+// ============================================================
+
+function startTimer()
+{
+stopTimer();
+
+updateDisplay();
+
+
+if (
+timerStatus !== "ACTIVE"
+||
+remainingSeconds <= 0
+)
+{
+return;
+}
+
+
+clock =
+setInterval(
+function()
+{
+remainingSeconds--;
+
+
+if (
+remainingSeconds <= 0
+)
+{
+remainingSeconds = 0;
+
+timerStatus =
+"COMPLETE";
+
+stopTimer();
+}
+
+
+updateDisplay();
+},
+1000
+);
+}
+
+
+// ============================================================
+// START PAGE
+// ============================================================
+
+readSettings();
+
+
+// ============================================================
+// SECOND LIFE LIVE HASH CHANGES
+// ============================================================
+
+window.addEventListener(
+"hashchange",
+function()
+{
+readSettings();
+}
+);
+
+</script>
+
+</body>
+</html>
