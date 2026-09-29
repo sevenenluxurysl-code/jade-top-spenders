@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>Jade Client Directory</title>
+
+<style>
+
+* {
+box-sizing: border-box;
+}
+
+html,
+body {
+margin: 0;
+padding: 0;
+width: 100%;
+height: 100%;
+overflow: hidden;
+background:
+radial-gradient(
+circle at top,
+#0d372c 0%,
+#061913 35%,
+#020806 72%,
+#000000 100%
+);
+
+font-family:
+Arial,
+Helvetica,
+sans-serif;
+
+color: #f7e6a5;
+}
+
+body {
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+
+/* =========================================================
+FRAME
+========================================================= */
+
+.panel {
+width: 100%;
+height: 100%;
+
+padding:
+18px 16px 16px 16px;
+
+border:
+2px solid #94752d;
+
+background:
+linear-gradient(
+145deg,
+rgba(4, 35, 27, 0.97),
+rgba(0, 8, 6, 0.99)
+);
+
+box-shadow:
+inset 0 0 24px rgba(16, 115, 82, 0.28),
+inset 0 0 3px rgba(255, 220, 125, 0.35);
+}
+
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.header {
+text-align: center;
+margin-bottom: 12px;
+}
+
+.title {
+font-family:
+Georgia,
+"Times New Roman",
+serif;
+
+font-size: 22px;
+font-weight: 700;
+
+letter-spacing: 3px;
+
+color: #f1d77d;
+
+text-shadow:
+0 0 8px rgba(224, 190, 88, 0.32);
+}
+
+.subtitle {
+margin-top: 4px;
+
+font-size: 9px;
+font-weight: 700;
+
+letter-spacing: 2px;
+
+color: #73c8a4;
+}
+
+
+/* =========================================================
+CLIENT ROWS
+========================================================= */
+
+.client-list {
+width: 100%;
+}
+
+.client-row {
+position: relative;
+
+width: 100%;
+height: 66px;
+
+margin-bottom: 8px;
+
+padding:
+10px 12px;
+
+display: flex;
+flex-direction: column;
+justify-content: center;
+
+border:
+1px solid rgba(193, 157, 60, 0.64);
+
+background:
+linear-gradient(
+100deg,
+rgba(13, 66, 49, 0.92),
+rgba(3, 25, 19, 0.96)
+);
+
+box-shadow:
+inset 0 0 12px rgba(43, 164, 116, 0.08);
+}
+
+.client-row::before {
+content: "";
+
+position: absolute;
+
+left: 0;
+top: 0;
+
+width: 4px;
+height: 100%;
+
+background:
+linear-gradient(
+#d7bb63,
+#8f712a
+);
+}
+
+.client-name {
+font-size: 16px;
+font-weight: 800;
+
+letter-spacing: 0.6px;
+
+color: #fff2c3;
+
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+
+.client-info {
+margin-top: 5px;
+
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+gap: 8px;
+
+font-size: 10px;
+font-weight: 700;
+
+letter-spacing: 0.5px;
+
+color: #76d2ad;
+}
+
+.status {
+color: #dabb5e;
+
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+
+.membership {
+color: #78c7a8;
+
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+EMPTY ROWS
+========================================================= */
+
+.client-row.empty {
+opacity: 0.42;
+}
+
+.client-row.empty .client-name {
+color: #7d8f87;
+}
+
+.client-row.empty .client-info {
+display: none;
+}
+
+
+/* =========================================================
+FOOTER
+========================================================= */
+
+.footer {
+position: absolute;
+
+left: 0;
+right: 0;
+bottom: 8px;
+
+text-align: center;
+
+font-size: 8px;
+font-weight: 700;
+
+letter-spacing: 1.7px;
+
+color: rgba(117, 191, 160, 0.68);
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="panel">
+
+<div class="header">
+
+<div class="title">
+CLIENT DIRECTORY
+</div>
+
+<div class="subtitle">
+THE JADE EXPERIENCE
+</div>
+
+</div>
+
+
+<div
+id="clientList"
+class="client-list"
+>
+</div>
+
+
+<div
+id="footer"
+class="footer"
+>
+JADE CENTRAL
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+HELPERS
+========================================================= */
+
+function getHashParams() {
+
+const raw =
+window.location.hash
+.replace(/^#/, "");
+
+return new URLSearchParams(
+raw
+);
+}
+
+
+function safeText(value) {
+
+if (
+value === null ||
+value === undefined ||
+value === ""
+) {
+return "";
+}
+
+return String(value);
+}
+
+
+/* =========================================================
+RENDER EMPTY ROW
+========================================================= */
+
+function renderEmptyRow() {
+
+const row =
+document.createElement(
+"div"
+);
+
+row.className =
+"client-row empty";
+
+
+const name =
+document.createElement(
+"div"
+);
+
+name.className =
+"client-name";
+
+name.textContent =
+"— EMPTY —";
+
+
+row.appendChild(
+name
+);
+
+
+return row;
+}
+
+
+/* =========================================================
+RENDER CLIENT
+========================================================= */
+
+function renderClient(client) {
+
+const row =
+document.createElement(
+"div"
+);
+
+row.className =
+"client-row";
+
+
+const name =
+document.createElement(
+"div"
+);
+
+name.className =
+"client-name";
+
+name.textContent =
+safeText(
+client.username
+) ||
+"UNKNOWN CLIENT";
+
+
+const info =
+document.createElement(
+"div"
+);
+
+info.className =
+"client-info";
+
+
+const status =
+document.createElement(
+"span"
+);
+
+status.className =
+"status";
+
+status.textContent =
+safeText(
+client.status_title
+) ||
+"Jade Guest";
+
+
+const membership =
+document.createElement(
+"span"
+);
+
+membership.className =
+"membership";
+
+
+if (
+client.membership_active === true
+) {
+membership.textContent =
+safeText(
+client.membership_tier
+) ||
+"MEMBER";
+}
+else {
+membership.textContent =
+"NO MEMBERSHIP";
+}
+
+
+info.appendChild(
+status
+);
+
+info.appendChild(
+membership
+);
+
+
+row.appendChild(
+name
+);
+
+row.appendChild(
+info
+);
+
+
+return row;
+}
+
+
+/* =========================================================
+RENDER
+========================================================= */
+
+function render() {
+
+const params =
+getHashParams();
+
+
+const listElement =
+document.getElementById(
+"clientList"
+);
+
+
+listElement.innerHTML =
+"";
+
+
+let clients = [];
+
+
+const encodedData =
+params.get(
+"data"
+);
+
+
+if (
+encodedData
+) {
+try {
+
+const parsed =
+JSON.parse(
+encodedData
+);
+
+
+if (
+Array.isArray(
+parsed
+)
+) {
+clients =
+parsed;
+}
+
+}
+catch (error) {
+
+clients = [];
+}
+}
+
+
+/* -----------------------------------------------------
+ALWAYS DISPLAY EXACTLY FIVE ROWS
+----------------------------------------------------- */
+
+for (
+let i = 0;
+i < 5;
+i++
+) {
+
+if (
+i < clients.length
+) {
+
+listElement.appendChild(
+renderClient(
+clients[i]
+)
+);
+
+}
+else {
+
+listElement.appendChild(
+renderEmptyRow()
+);
+
+}
+}
+
+
+/* -----------------------------------------------------
+PAGE INDICATOR
+----------------------------------------------------- */
+
+const currentPage =
+Number(
+params.get("page") || 1
+);
+
+
+const totalPages =
+Number(
+params.get("pages") || 1
+);
+
+
+document.getElementById(
+"footer"
+).textContent =
+"JADE CENTRAL • PAGE "
++
+currentPage
++
+" / "
++
+totalPages;
+}
+
+
+/* =========================================================
+UPDATE SUPPORT
+========================================================= */
+
+window.addEventListener(
+"hashchange",
+render
+);
+
+
+window.addEventListener(
+"pageshow",
+render
+);
+
+
+render();
+
+</script>
+
+</body>
+</html>
