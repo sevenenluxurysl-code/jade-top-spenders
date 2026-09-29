@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>Jade Client Profile</title>
+
+
+<style>
+
+* {
+box-sizing: border-box;
+}
+
+html,
+body {
+margin: 0;
+padding: 0;
+
+width: 100%;
+height: 100%;
+
+overflow: hidden;
+
+background:
+radial-gradient(
+circle at top,
+#0d372c 0%,
+#061913 38%,
+#020806 72%,
+#000000 100%
+);
+
+font-family:
+Arial,
+Helvetica,
+sans-serif;
+
+color: #f5e7b2;
+}
+
+
+body {
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+
+/* =========================================================
+MAIN PANEL
+========================================================= */
+
+.panel {
+position: relative;
+
+width: 100%;
+height: 100%;
+
+padding:
+18px 18px 16px 18px;
+
+border:
+2px solid #94752d;
+
+background:
+linear-gradient(
+145deg,
+rgba(4, 35, 27, 0.98),
+rgba(0, 8, 6, 0.99)
+);
+
+box-shadow:
+inset 0 0 26px rgba(16, 115, 82, 0.28),
+inset 0 0 3px rgba(255, 220, 125, 0.34);
+}
+
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.header {
+text-align: center;
+
+margin-bottom: 14px;
+}
+
+
+.title {
+font-family:
+Georgia,
+"Times New Roman",
+serif;
+
+font-size: 21px;
+
+font-weight: 700;
+
+letter-spacing: 3px;
+
+color: #f1d77d;
+
+text-shadow:
+0 0 8px rgba(224, 190, 88, 0.32);
+}
+
+
+.subtitle {
+margin-top: 4px;
+
+font-size: 9px;
+
+font-weight: 700;
+
+letter-spacing: 2px;
+
+color: #73c8a4;
+}
+
+
+/* =========================================================
+EMPTY STATE
+========================================================= */
+
+.empty-state {
+position: absolute;
+
+left: 18px;
+right: 18px;
+
+top: 50%;
+
+transform:
+translateY(-50%);
+
+text-align: center;
+
+color: #718980;
+}
+
+
+.empty-diamond {
+font-size: 38px;
+
+color: #a78a3e;
+
+margin-bottom: 10px;
+}
+
+
+.empty-title {
+font-family:
+Georgia,
+"Times New Roman",
+serif;
+
+font-size: 18px;
+
+color: #cdb667;
+
+letter-spacing: 2px;
+
+margin-bottom: 7px;
+}
+
+
+.empty-text {
+font-size: 10px;
+
+letter-spacing: 1px;
+
+color: #6fa88f;
+}
+
+
+/* =========================================================
+PROFILE
+========================================================= */
+
+.profile {
+display: none;
+}
+
+
+.client-name {
+text-align: center;
+
+font-family:
+Georgia,
+"Times New Roman",
+serif;
+
+font-size: 23px;
+
+font-weight: 700;
+
+letter-spacing: 1px;
+
+color: #fff0ba;
+
+white-space: nowrap;
+
+overflow: hidden;
+
+text-overflow: ellipsis;
+
+margin-bottom: 5px;
+}
+
+
+.status-title {
+text-align: center;
+
+font-size: 11px;
+
+font-weight: 800;
+
+letter-spacing: 1.5px;
+
+color: #d3b45c;
+
+margin-bottom: 15px;
+}
+
+
+/* =========================================================
+INFO GRID
+========================================================= */
+
+.info-grid {
+display: grid;
+
+grid-template-columns:
+1fr 1fr;
+
+gap: 8px;
+}
+
+
+.info-box {
+min-height: 58px;
+
+padding:
+8px 9px;
+
+border:
+1px solid rgba(
+193,
+157,
+60,
+0.55
+);
+
+background:
+linear-gradient(
+110deg,
+rgba(13, 66, 49, 0.88),
+rgba(3, 25, 19, 0.94)
+);
+
+box-shadow:
+inset 0 0 10px rgba(38, 137, 99, 0.08);
+}
+
+
+.info-label {
+font-size: 8px;
+
+font-weight: 800;
+
+letter-spacing: 1.1px;
+
+color: #70b99a;
+
+margin-bottom: 5px;
+}
+
+
+.info-value {
+font-size: 13px;
+
+font-weight: 800;
+
+color: #f4e1a0;
+
+white-space: nowrap;
+
+overflow: hidden;
+
+text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+MEMBERSHIP BAR
+========================================================= */
+
+.membership-box {
+margin-top: 8px;
+
+padding:
+9px 10px;
+
+border:
+1px solid rgba(
+193,
+157,
+60,
+0.55
+);
+
+background:
+linear-gradient(
+110deg,
+rgba(15, 72, 53, 0.90),
+rgba(3, 25, 19, 0.95)
+);
+}
+
+
+.membership-line {
+display: flex;
+
+justify-content: space-between;
+
+align-items: center;
+
+gap: 8px;
+}
+
+
+.membership-name {
+font-size: 12px;
+
+font-weight: 800;
+
+color: #f0d875;
+
+white-space: nowrap;
+
+overflow: hidden;
+
+text-overflow: ellipsis;
+}
+
+
+.membership-state {
+font-size: 9px;
+
+font-weight: 800;
+
+letter-spacing: 1px;
+
+color: #76d2ad;
+}
+
+
+.expiry {
+margin-top: 6px;
+
+font-size: 9px;
+
+color: #91b8a7;
+}
+
+
+/* =========================================================
+FOOTER
+========================================================= */
+
+.footer {
+position: absolute;
+
+left: 0;
+right: 0;
+bottom: 8px;
+
+text-align: center;
+
+font-size: 8px;
+
+font-weight: 700;
+
+letter-spacing: 1.7px;
+
+color: rgba(
+117,
+191,
+160,
+0.68
+);
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="panel">
+
+<div class="header">
+
+<div class="title">
+CLIENT PROFILE
+</div>
+
+<div class="subtitle">
+JADE CENTRAL
+</div>
+
+</div>
+
+
+<!-- =====================================================
+EMPTY STATE
+===================================================== -->
+
+<div
+id="emptyState"
+class="empty-state"
+>
+
+<div class="empty-diamond">
+◆
+</div>
+
+<div class="empty-title">
+SELECT A CLIENT
+</div>
+
+<div class="empty-text">
+Choose a client from the directory
+</div>
+
+</div>
+
+
+<!-- =====================================================
+LIVE PROFILE
+===================================================== -->
+
+<div
+id="profile"
+class="profile"
+>
+
+<div
+id="clientName"
+class="client-name"
+>
+</div>
+
+
+<div
+id="statusTitle"
+class="status-title"
+>
+</div>
+
+
+<div class="info-grid">
+
+
+<div class="info-box">
+
+<div class="info-label">
+TOTAL SPEND
+</div>
+
+<div
+id="totalSpend"
+class="info-value"
+>
+L$0
+</div>
+
+</div>
+
+
+<div class="info-box">
+
+<div class="info-label">
+TOTAL GIFTS
+</div>
+
+<div
+id="totalGifts"
+class="info-value"
+>
+L$0
+</div>
+
+</div>
+
+
+<div class="info-box">
+
+<div class="info-label">
+BOOKINGS
+</div>
+
+<div
+id="totalBookings"
+class="info-value"
+>
+0
+</div>
+
+</div>
+
+
+<div class="info-box">
+
+<div class="info-label">
+REWARD POINTS
+</div>
+
+<div
+id="rewardPoints"
+class="info-value"
+>
+0
+</div>
+
+</div>
+
+</div>
+
+
+<div class="membership-box">
+
+<div class="membership-line">
+
+<div
+id="membershipName"
+class="membership-name"
+>
+NO MEMBERSHIP
+</div>
+
+
+<div
+id="membershipState"
+class="membership-state"
+>
+INACTIVE
+</div>
+
+</div>
+
+
+<div
+id="membershipExpiry"
+class="expiry"
+>
+No active membership
+</div>
+
+</div>
+
+</div>
+
+
+<div class="footer">
+THE JADE EXPERIENCE
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+HELPERS
+========================================================= */
+
+function getHashParams() {
+
+const raw =
+window.location.hash
+.replace(
+/^#/,
+""
+);
+
+
+return new URLSearchParams(
+raw
+);
+}
+
+
+function safeText(
+value,
+fallback = ""
+) {
+
+if (
+value === null ||
+value === undefined ||
+value === ""
+) {
+return fallback;
+}
+
+
+return String(
+value
+);
+}
+
+
+function safeNumber(
+value
+) {
+
+const number =
+Number(
+value
+);
+
+
+if (
+Number.isNaN(
+number
+)
+) {
+return 0;
+}
+
+
+return number;
+}
+
+
+function formatLinden(
+value
+) {
+
+const number =
+safeNumber(
+value
+);
+
+
+return (
+"L$" +
+number.toLocaleString(
+"en-US"
+)
+);
+}
+
+
+/* =========================================================
+DATE FORMAT
+========================================================= */
+
+function formatDate(
+value
+) {
+
+if (!value) {
+return "";
+}
+
+
+const date =
+new Date(
+value
+);
+
+
+if (
+Number.isNaN(
+date.getTime()
+)
+) {
+return "";
+}
+
+
+return date.toLocaleDateString(
+"en-US",
+{
+month: "short",
+day: "numeric",
+year: "numeric"
+}
+);
+}
+
+
+/* =========================================================
+EMPTY STATE
+========================================================= */
+
+function showEmpty() {
+
+document.getElementById(
+"emptyState"
+).style.display =
+"block";
+
+
+document.getElementById(
+"profile"
+).style.display =
+"none";
+}
+
+
+/* =========================================================
+PROFILE STATE
+========================================================= */
+
+function showProfile(
+client
+) {
+
+document.getElementById(
+"emptyState"
+).style.display =
+"none";
+
+
+document.getElementById(
+"profile"
+).style.display =
+"block";
+
+
+/* -----------------------------------------------------
+NAME
+----------------------------------------------------- */
+
+document.getElementById(
+"clientName"
+).textContent =
+safeText(
+client.username,
+"UNKNOWN CLIENT"
+);
+
+
+/* -----------------------------------------------------
+STATUS
+----------------------------------------------------- */
+
+document.getElementById(
+"statusTitle"
+).textContent =
+safeText(
+client.status_title,
+"Jade Guest"
+);
+
+
+/* -----------------------------------------------------
+SPEND
+----------------------------------------------------- */
+
+document.getElementById(
+"totalSpend"
+).textContent =
+formatLinden(
+client.total_spend
+);
+
+
+/* -----------------------------------------------------
+GIFTS
+----------------------------------------------------- */
+
+document.getElementById(
+"totalGifts"
+).textContent =
+formatLinden(
+client.total_gifts
+);
+
+
+/* -----------------------------------------------------
+BOOKINGS
+----------------------------------------------------- */
+
+document.getElementById(
+"totalBookings"
+).textContent =
+safeNumber(
+client.total_bookings
+).toLocaleString(
+"en-US"
+);
+
+
+/* -----------------------------------------------------
+REWARDS
+----------------------------------------------------- */
+
+document.getElementById(
+"rewardPoints"
+).textContent =
+safeNumber(
+client.rewards_balance
+).toLocaleString(
+"en-US"
+);
+
+
+/* -----------------------------------------------------
+MEMBERSHIP
+----------------------------------------------------- */
+
+const active =
+client.membership_active
+=== true;
+
+
+const membershipTier =
+safeText(
+client.membership_tier,
+"NONE"
+);
+
+
+if (
+active
+) {
+
+document.getElementById(
+"membershipName"
+).textContent =
+membershipTier;
+
+
+document.getElementById(
+"membershipState"
+).textContent =
+"ACTIVE";
+
+
+const expiry =
+formatDate(
+client.membership_expires
+);
+
+
+if (
+expiry !== ""
+) {
+
+document.getElementById(
+"membershipExpiry"
+).textContent =
+"Expires "
++
+expiry;
+
+}
+else {
+
+document.getElementById(
+"membershipExpiry"
+).textContent =
+"Active membership";
+
+}
+
+}
+else {
+
+document.getElementById(
+"membershipName"
+).textContent =
+"NO MEMBERSHIP";
+
+
+document.getElementById(
+"membershipState"
+).textContent =
+"INACTIVE";
+
+
+document.getElementById(
+"membershipExpiry"
+).textContent =
+"No active membership";
+
+}
+}
+
+
+/* =========================================================
+RENDER
+========================================================= */
+
+function render() {
+
+const params =
+getHashParams();
+
+
+const encodedData =
+params.get(
+"data"
+);
+
+
+if (
+!encodedData
+) {
+
+showEmpty();
+
+return;
+}
+
+
+try {
+
+const client =
+JSON.parse(
+encodedData
+);
+
+
+if (
+!client ||
+typeof client !==
+"object" ||
+Array.isArray(
+client
+)
+) {
+
+showEmpty();
+
+return;
+}
+
+
+showProfile(
+client
+);
+
+}
+catch (error) {
+
+showEmpty();
+
+}
+}
+
+
+/* =========================================================
+LIVE UPDATE SUPPORT
+========================================================= */
+
+window.addEventListener(
+"hashchange",
+render
+);
+
+
+window.addEventListener(
+"pageshow",
+render
+);
+
+
+render();
+
+</script>
+
+</body>
+</html>
